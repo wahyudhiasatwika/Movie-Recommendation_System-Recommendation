@@ -16,7 +16,7 @@ Dengan membangun sistem rekomendasi ini, diharapkan dapat meningkatkan pengalama
 - Menghasilkan rekomendasi movie sebanyak Top-N Rekomendasi kepada pengguna berdasarkan genre movie.
 - Performa model sistem rekomendasi diukur menggunakan metriks evaluasi.
 
-## SOlution Statements
+## Solution Statements
 - Model Sistem Rekomendasi akan dibuatkan menggunakan Content-Based Filtering dengan pendekatan Cosine Similarity dimana nantinya sistem ini akan merekomendasikan movie bedasarkan kesamaan genre movie. 
 
 - Model Sistem Rekomendasi akan menggunakan Collaborative Filtering dengan pendekatan model based Deep learning yaitu RecommenderNet. Pendekatan ini akan memanfaatkan rating dari pengguna untuk memberikan rekomendasi movie.
