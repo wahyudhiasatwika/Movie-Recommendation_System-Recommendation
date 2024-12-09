@@ -270,6 +270,7 @@ Model dibuat dengan loss yang digunakan yaitu BinaryCrossentropy, optimizer Adam
 Kemudian dilakukan pengujian dan dihasilkan output sebagai berikut:
 
 **Rekomendasi Film untuk Pengguna 130921**
+
 **Movie dengan Rating Tertinggi dari Pengguna**
 **Oculus (2013)**  
 **Genre**: Horror
