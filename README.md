@@ -31,7 +31,7 @@ Dataset Movie Recommendation yang berasal dari kaggle merupakan sebuah dataset y
 
 | **Judul**       | Movie Recommendation System                                                        |                  
 |-----------------|-------------------------------------------------------------------------------------|
-| **Author**      | MANAS PARASHAR LO                                                                           |
+| **Author**      | MANAS PARASHAR                                                                            |
 | **Source**      | [Kaggle](https://www.kaggle.com/datasets/parasharmanas/movie-recommendation-system) |
 | **Visibility**  | Public                                                                              |
 | **Usability**   | 10.00                                                                               |
