@@ -217,7 +217,7 @@ pd.DataFrame(
 
 Collaborative filtering fokus pada mengidentifikasi pengguna dengan preferensi serupa dan menghasilkan rekomendasi berdasarkan preferensi pengguna-pengguna. Untuk Collaborative Filtering akan digunakan userId, movieId, dan Rating.
 
-### Encode Data
+### Encoding
 
 Encoding adalah proses mengonversi data kategorikal (userId) menjadi angka (nilai numerik). Dilakukan encode untuk user id agar menjadi bentuk list.
 """
