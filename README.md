@@ -128,9 +128,17 @@ Untuk distribusi movie berdasarkan genre dapat dilihat bahwa genre Drama memilik
 Untuk distribusi genre berdasarkan rating menunjukkan bahwa hampir semua genre memiliki rating 3.5 namun dapat dilihat untuk Genre Film-Noir memiliki rating yang paling tinggi yaitu 3.7 disusul oleh genre weestern dan IMAX yang memiliki rating 3.6. Untuk sisanya memiliki rating yang hampir sama yaitu 3.5.
 
 # Data Preparation 
-Pada tahap ini dilakukan untuk mempersiapkan data sebelum dilakukan pemodelan. Pada proyek kali ini, akan digunakan Content Based Filtering dan Collaborative Filtering. Sebelum masuk ke dalam preparation untuk setiap filtering, maka perlu dicek terlebih dahulu data yang akan digunakan. 
+ Pada tahap ini dilakukan untuk mempersiapkan data sebelum dilakukan pemodelan. Pada proyek kali ini, akan digunakan Content Based Filtering dan Collaborative Filtering. Sebelum masuk ke dalam preparation untuk setiap filtering, maka perlu dicek terlebih dahulu data yang akan digunakan. Karena dataset tidak terdapat missing value dan duplicate maka bisa langungsung ke analisis data yang diperlukan seperti unique genres.
 
 Dikarenakan terdapat data (no genre listed), maka lebih baik dihapus karena akan mengganggu saat pemodelan nanti sebagai berikut.
+
+['Adventure' 'Animation' 'Children' 'Comedy' 'Fantasy' 'Romance' 'Drama'
+ 'Action' 'Crime' 'Thriller' 'Horror' 'Mystery' 'Sci-Fi' 'IMAX'
+ 'Documentary' 'War' 'Musical' 'Western' 'Film-Noir' '(no genres listed)']
+
+### Delete Unnecessary Values
+
+Jika dilihat pada data_movies['genres] terdapat data (no genre listed), maka lebih baik dihapus dikarena data tersebut tidak memiliki insight yang jelas dan akan mengganggu saat pemodelan nanti. 
 
 ['Adventure', 'Animation', 'Children', 'Comedy', 'Fantasy', 'Romance', 'Drama'
  'Action', 'Crime', 'Thriller', 'Horror' 'Mystery', 'Sci-Fi', 'IMAX'
@@ -141,7 +149,7 @@ Content-based filtering adalah salah satu metode dalam sistem rekomendasi yang d
 
 Pertama-tama, data akan dilakukan konversi menjadi bentuk list kemudian akan disimpan menjadi dataframe baru yaitu `content_based`. Setelah itu akan diproses menggunakan TF-IDF. 
 
-### TF-IDF 
+### Ekstraksi TF-IDF 
 Dikarenakan komputer hanya bisa memroses berupa numerik maka diperlukan mengubah data dari string menjadi numerik dengen TFidfVectorizer. Dilakukan konversi untuk kolom genres agar dapat diproses untuk pemodelan nanti.
 
 Setelah itu dilakukan transformasi ke dalam bentuk matrix dan mengubah vektor tf-idf ke dalam bentuk matriks dengan fungsi todense(). Sehingga contoh dataframe yang baru sebagai berikut:
@@ -185,6 +193,9 @@ Setelah dilakukan encoding, maka dataframe akan menjadi sebagai berikut:
 - **timestamp**: Waktu ketika rating diberikan.
 - **movie**: ID terkait film .
 - **user**: ID pengguna yang memberikan rating.
+
+### Train-Test Split Data
+Setelah dilakukan encoding maka selanjutnya dataset perlu dibagi menjadi 80% train dan 20% test. Untuk X akan menyimpan feature yang akan dipakai dan y akan menyimpan nilai rating yang telah dinormalisasi.
 
 # Modelling & Result
 
@@ -301,9 +312,46 @@ Kemudian dilakukan pengujian dan dihasilkan output sebagai berikut:
 
 # Evaluation
 
+## Content-Based Filtering
+
+
+### Precision
+Untuk content-based filtering, digunakan metrik evaluasi precision untuk melihat seberapa baik sistem rekomendasi menggunakan cosine-simiilarity. Precision adalah salah satu metrik evaluasi yang digunakan untuk mengukur keakuratan prediksi. Precision memberikan gambaran seberapa banyak dari prediksi yang dikategorikan positif benar-benar merupakan kasus positif yang sebenarnya.
+
+$$ Precision = \frac{TP}{TP + FP} $$
+
+Dimana:
+
+- TP (*True Positive*), jumlah kejadian positif yang diprediksi dengan benar.
+- FP (*False Positive*), jumlah kejadian positif yang diprediksi dengan salah.
+
+Dikarenakan pada saat menguji model untuk film `Jumanji` dengan genre `Adventure|Children|Fantasy`. Dapat dilihat rekomendasi yang dihasilkan mengeluarkan Top-10 film dengan genre yang serupa yaitu `Adventure|Children|Fantasy` sehingga precision yang didapat adalah `10/10`.
+
+## Collaborative Filtering
+
+### RMSE
+
+Evaluasi metrik digunakan untuk mengukur performa model RecommenderNet adalah metrik RMSE (Root Mean Squared Error). RMSE mengukur selisih antara nilai yang diprediksi oleh model dengan nilai yang sebenarnya (nilai yang diobservasi). RMSE memberikan gambaran tentang seberapa besar kesalahan yang dilakukan model dalam satuan yang sama dengan data asli.
+
+$$ RMSE =  \sqrt{\frac{\sum_{t=1}^{n}(A_t - F_t)^2}{n}} $$
+
+Dimana:
+
+- $A_t$ : Nilai aktual
+- $F_t$ : Nilai hasil prediksi
+- n: Banyak data
+
+Hasil training Collaborative Filtering dengan RecommenderNet dapat divisualisasikan sebagai berikut:
+
 ![alt text](https://github.com/wahyudhiasatwika/Movie-Recommendation_System-Recommendation/blob/main/Gambar/eval1.png?raw=true)
 
-Pada hasil evaluasi dapat dilihat untuk akurasi training rmse terus menurun hingga epoch 20. Namun untuk validation rmse, penurunan terhenti pada epoch 10 dan terjadi naik turun untuk hasilnya.
+Pada hasil evaluasi dapat dilihat untuk akurasi training rmse terus menurun hingga epoch 20. Namun untuk validation rmse, penurunan terhenti pada epoch 10 dan terjadi naik turun untuk hasilnya. Dikarenakan RMSE sudah mencapai 0.18 sehingga dapat dikatakan model sudah cukup baik sebagai sistem rekomendasi. 
+
+# Kesimpulan
+
+Berdasarkan hasil evaluasi, sistem rekomendasi film dengan pendekatan Content-Based Filtering menggunakan Cosine Similarity berhasil mencapai precision 10/10, memberikan rekomendasi yang sangat relevan berdasarkan kesamaan genre. Sementara itu, pendekatan Collaborative Filtering dengan model RecommenderNet menghasilkan RMSE sebesar 0.1727, menunjukkan kemampuan model dalam memprediksi preferensi pengguna dengan tingkat kesalahan yang rendah. Kedua pendekatan ini efektif dalam menyediakan rekomendasi film yang sesuai dengan preferensi genre dan pola rating pengguna.
+
+Sehingga dapat disimpulkan, bahwa kedua pendekatan ini dapat dikatakan berhasil memenuhi tujuan dari dibuatnya projek ini dimana model dapat memprediksi film berdasarkan genrenya menggunakan content-based filtering dan rating untuk collaborative filtering.
 
 # Referensi
 Movie Recommendation System Based on Synopsis Using Content-Based Filtering with TF-IDF and Cosine Similarity [_(Sumber Referensi)] (https://doi.org/10.21108/ijoict.v9i2.747)
